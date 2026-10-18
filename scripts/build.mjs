@@ -1,3 +1,3 @@
 import {cp,mkdir,readFile,rm,writeFile} from 'node:fs/promises';
-for(const name of ['dist/index.html','dist/engine.js','dist/game.js','dist/visuals.js','dist/software.js','dist/style.css','dist/vendor/three.module.js','dist/vendor/three.core.js','dist/vendor/THREE-LICENSE.txt'])if(!(await readFile(name)).length)throw Error('Missing release asset '+name);
+for(const name of ['dist/index.html','dist/engine.js','dist/balance.js','dist/game.js','dist/visuals.js','dist/software.js','dist/style.css','dist/vendor/three.module.js','dist/vendor/three.core.js','dist/vendor/THREE-LICENSE.txt'])if(!(await readFile(name)).length)throw Error('Missing release asset '+name);
 await rm('_site',{recursive:true,force:true});await mkdir('_site');await cp('dist','_site/dist',{recursive:true});await cp('index.html','_site/index.html');await writeFile('_site/.nojekyll','');console.log('Standalone release ready in _site/');

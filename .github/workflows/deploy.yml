@@ -31,6 +31,8 @@ jobs:
         run: npm run check
       - name: Test gameplay
         run: npm test
+      - name: Check difficulty curve
+        run: npm run balance:check
       - name: Build standalone release
         run: npm run build
       - name: Upload GitHub Pages artifact

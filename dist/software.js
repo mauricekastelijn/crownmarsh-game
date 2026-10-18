@@ -1,4 +1,4 @@
-import {REGIONS,LARGE_ENEMIES} from './engine.js?v=1.1';
+import {REGIONS,LARGE_ENEMIES} from './engine.js?v=1.2';
 // Canvas compatibility view; runs the same simulation, including every campaign mechanic.
 export class SoftwareView{
  constructor(canvas,settings){this.canvas=canvas;this.ctx=canvas.getContext('2d');this.settings=settings;this.resize();}
