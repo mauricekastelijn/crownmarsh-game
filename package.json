@@ -1,1 +1,1 @@
-{"name":"crownmarch","version":"1.0.0","private":true,"type":"module","scripts":{"check":"node scripts/check.mjs","test":"node --test tests/*.test.js","build":"node scripts/build.mjs"}}
+{"name":"crownmarch","version":"1.1.0","private":true,"type":"module","scripts":{"check":"node scripts/check.mjs","test":"node --test tests/*.test.js","build":"node scripts/build.mjs"}}
