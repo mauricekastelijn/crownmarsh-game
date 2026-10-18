@@ -1,5 +1,5 @@
 import * as T from './vendor/three.module.js';
-import {REGIONS,seeded,clamp,LARGE_ENEMIES} from './engine.js';
+import {REGIONS,seeded,clamp,LARGE_ENEMIES} from './engine.js?v=1.1';
 // Shared geometry/material caches and instancing follow Dreadmarch's mobile architecture.
 const geos=new Map(),mats=new Map();
 function geo(type){if(!geos.has(type))geos.set(type,type==='sphere'?new T.SphereGeometry(1,8,6):type==='cone'?new T.ConeGeometry(1,1,6):type==='cylinder'?new T.CylinderGeometry(1,1,1,8):type==='rock'?new T.IcosahedronGeometry(1,0):new T.BoxGeometry(1,1,1));return geos.get(type);}
