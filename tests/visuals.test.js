@@ -1,0 +1,9 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {View} from '../dist/visuals.js';import {Battle,freshSave} from '../dist/engine.js';
+// Validate the real scene assembly using a renderer stand-in: no GPU is available here.
+const renderer=()=>({shadowMap:{},setClearColor(){},setPixelRatio(){},setSize(){},render(scene,camera){scene.updateMatrixWorld(true);camera.updateMatrixWorld(true);}});
+globalThis.innerWidth=390;globalThis.innerHeight=844;globalThis.devicePixelRatio=2;
+const fakeCanvas={getContext:()=>({fillRect(){},beginPath(){},roundRect(){},fill(){},stroke(){},fillText(){}})};
+globalThis.document={createElement:()=>({...fakeCanvas})};
+function assertFinite(view){let count=0;view.scene.traverse(o=>{assert.ok(o.matrixWorld.elements.every(Number.isFinite),'Non-finite transform on '+o.type);if(o.isInstancedMesh){count+=o.count;for(let i=0;i<o.count*16;i++)assert.ok(Number.isFinite(o.instanceMatrix.array[i]),'Non-finite instance matrix');}});return count;}
+test('all six realm scenes and procedural bosses produce finite renderable geometry',()=>{const v=new View({},freshSave().settings,{renderer:renderer()});for(let i=0;i<6;i++){const b=new Battle({stage:i*2+1});b.spawnBoss(i);b.bossStep(.3);b.choices();b.formation();v.render(b,1/60,'battle');assert.ok(assertFinite(v)>100);assert.equal(v.bossModel.userData.id,b.boss.id);assert.equal(v.bossModel.userData.limbs.length,2);}v.render(new Battle(),1/60,'menu');assertFinite(v);});
+test('maximum troop formation and pooled effects remain bounded across frames',()=>{const v=new View({},freshSave().settings,{renderer:renderer()});const b=new Battle();b.army=120;for(let i=0;i<60;i++)v.effect('destroy',{x:0,z:-3});assert.ok(v.fx.length<=180);for(let i=0;i<100;i++)v.render(b,1/60,'battle');assert.equal(v.fx.length,0);assert.ok(v.pool.length<=180);for(const batch of v.batches.values())assert.ok(batch.n<=batch.max);assertFinite(v);});
